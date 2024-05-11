@@ -1,6 +1,5 @@
 package Proyecto;
 
-// Interfaz para definir las propiedades básicas de un vehículo
 interface Vehiculo {
     String obtenerPlaca();
     String obtenerModelo();
@@ -8,7 +7,6 @@ interface Vehiculo {
     String obtenerTipoVehiculo();
 }
 
-// Clase base para vehículos
 abstract class VehiculoBase implements Vehiculo {
     private final String placa;
     private final String modelo;
@@ -43,7 +41,6 @@ abstract class VehiculoBase implements Vehiculo {
     }
 }
 
-// Clase para representar una moto clásica
 class MotoClasica extends VehiculoBase {
     public MotoClasica(String placa, String modelo, String propietario, String tipoVehiculo) {
         super(placa, modelo, propietario, tipoVehiculo);
