@@ -9,9 +9,9 @@ interface Vehiculo {
 
 // Clase base para vehículos
 abstract class VehiculoBase implements Vehiculo {
-    private String placa;
-    private String modelo;
-    private String propietario;
+    private final String placa;
+    private final String modelo;
+    private final String propietario;
 
     public VehiculoBase(String placa, String modelo, String propietario) {
         this.placa = placa;
