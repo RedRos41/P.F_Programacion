@@ -9,11 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
 
 public class Parqueadero extends Application {
 
     private final Vehiculo[][] parqueadero = new Vehiculo[2][2];
+    private final TextField velocidadMaximaField = new TextField(); // Campo de texto para la velocidad máxima
 
     @Override
     public void start(Stage primaryStage) {
@@ -36,6 +36,15 @@ public class Parqueadero extends Application {
         TextField propietarioField = new TextField();
         propietarioField.setPromptText("Propietario");
 
+        velocidadMaximaField.setPromptText("Velocidad Máxima");
+        velocidadMaximaField.setDisable(true); // Inicialmente deshabilitado
+
+        tipoVehiculoChoiceBox.setOnAction(event -> {
+            String tipoVehiculo = tipoVehiculoChoiceBox.getValue();
+            // Deshabilitar campo de texto para velocidad máxima
+            velocidadMaximaField.setDisable(!tipoVehiculo.equals("Moto Clásica") && !tipoVehiculo.equals("Moto Híbrida")); // Habilitar campo de texto para velocidad máxima
+        });
+
         Button addButton = new Button("Agregar Vehículo");
         addButton.setOnAction(event -> {
             String tipoVehiculo = tipoVehiculoChoiceBox.getValue();
@@ -44,10 +53,22 @@ public class Parqueadero extends Application {
             String modelo = modeloField.getText();
             String propietario = propietarioField.getText();
 
+            int velocidadMaxima = -1; // Valor predeterminado para velocidad máxima
+
+            // Verificar si es una moto y obtener la velocidad máxima
+            if (!velocidadMaximaField.isDisabled()) {
+                try {
+                    velocidadMaxima = Integer.parseInt(velocidadMaximaField.getText());
+                } catch (NumberFormatException e) {
+                    System.out.println("Por favor, ingrese una velocidad máxima válida.");
+                    return; // Salir del método si no se puede convertir la velocidad máxima a un número
+                }
+            }
+
             Vehiculo vehiculo = switch (tipoVehiculo) {
                 case "Carro" -> new Carro(placa, modelo, propietario, tipoVehiculo);
-                case "Moto Clásica" -> new MotoClasica(placa, modelo, propietario, tipoVehiculo);
-                case "Moto Híbrida" -> new MotoHibrida(placa, modelo, propietario, tipoVehiculo);
+                case "Moto Clásica" -> new MotoClasica(placa, modelo, propietario, tipoVehiculo, velocidadMaxima);
+                case "Moto Híbrida" -> new MotoHibrida(placa, modelo, propietario, tipoVehiculo, velocidadMaxima);
                 default -> null;
             };
 
@@ -96,10 +117,12 @@ public class Parqueadero extends Application {
         gridPane.add(modeloField, 1, 2);
         gridPane.add(new Label("Propietario:"), 0, 3);
         gridPane.add(propietarioField, 1, 3);
-        gridPane.add(addButton, 0, 4, 2, 1);
-        gridPane.add(checkButton, 0, 5, 2, 1);
+        gridPane.add(new Label("Velocidad Máxima:"), 0, 4); // Etiqueta para la velocidad máxima
+        gridPane.add(velocidadMaximaField, 1, 4); // Campo de texto para la velocidad máxima
+        gridPane.add(addButton, 0, 5, 2, 1);
+        gridPane.add(checkButton, 0, 6, 2, 1);
 
-        Scene scene = new Scene(gridPane, 400, 250);
+        Scene scene = new Scene(gridPane, 400, 300);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Parqueadero");
         primaryStage.show();
@@ -116,19 +139,29 @@ public class Parqueadero extends Application {
         }
     }
 
-    private static @NotNull Label getLabel(int j, Vehiculo[] parqueadero) {
+    private static Label getLabel(int j, Vehiculo[] parqueadero) {
         Vehiculo vehiculo = parqueadero[j];
         Label label = new Label();
         if (vehiculo != null) {
-            label.setText("Tipo: " + vehiculo.obtenerTipoVehiculo() + "\n" +
-                    "Placa: " + vehiculo.obtenerPlaca() + "\n" +
-                    "Modelo: " + vehiculo.obtenerModelo() + "\n" +
-                    "Propietario: " + vehiculo.obtenerPropietario());
+            StringBuilder labelText = new StringBuilder();
+            labelText.append("Tipo: ").append(vehiculo.obtenerTipoVehiculo()).append("\n")
+                    .append("Placa: ").append(vehiculo.obtenerPlaca()).append("\n")
+                    .append("Modelo: ").append(vehiculo.obtenerModelo()).append("\n")
+                    .append("Propietario: ").append(vehiculo.obtenerPropietario()).append("\n");
+            // Si es una moto, agregar la velocidad máxima
+            if (vehiculo instanceof MotoClasica) {
+                labelText.append("Velocidad Máxima: ").append(((MotoClasica) vehiculo).obtenerVelocidadMaxima()).append("\n");
+            } else if (vehiculo instanceof MotoHibrida) {
+                labelText.append("Velocidad Máxima: ").append(((MotoHibrida) vehiculo).obtenerVelocidadMaxima()).append("\n");
+            }
+            label.setText(labelText.toString());
         } else {
             label.setText("Parqueadero Vacío");
         }
         return label;
     }
+
+
 
     private boolean verificarPuestoOcupado(int fila, int columna) {
         return parqueadero[fila][columna] != null;
