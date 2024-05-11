@@ -5,7 +5,7 @@ interface Vehiculo {
     String obtenerModelo();
     String obtenerPropietario();
     String obtenerTipoVehiculo();
-    int obtenerVelocidadMaxima(); // Nuevo método
+    int obtenerVelocidadMaxima();
 }
 
 abstract class VehiculoBase implements Vehiculo {
@@ -43,7 +43,7 @@ abstract class VehiculoBase implements Vehiculo {
 }
 
 class MotoClasica extends VehiculoBase {
-    private final int velocidadMaxima; // Nueva propiedad
+    private final int velocidadMaxima;
 
     public MotoClasica(String placa, String modelo, String propietario, String tipoVehiculo, int velocidadMaxima) {
         super(placa, modelo, propietario, tipoVehiculo);
@@ -57,7 +57,7 @@ class MotoClasica extends VehiculoBase {
 }
 
 class MotoHibrida extends VehiculoBase {
-    private final int velocidadMaxima; // Nueva propiedad
+    private final int velocidadMaxima;
 
     public MotoHibrida(String placa, String modelo, String propietario, String tipoVehiculo, int velocidadMaxima) {
         super(placa, modelo, propietario, tipoVehiculo);
@@ -77,6 +77,6 @@ class Carro extends VehiculoBase {
 
     @Override
     public int obtenerVelocidadMaxima() {
-        return -1; // En el caso de un carro, la velocidad máxima no está definida (-1 indica no definida)
+        return -1;
     }
 }

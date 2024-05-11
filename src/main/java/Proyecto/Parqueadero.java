@@ -55,7 +55,6 @@ public class Parqueadero extends Application {
 
             int velocidadMaxima = -1; // Valor predeterminado para velocidad máxima
 
-            // Verificar si es una moto y obtener la velocidad máxima
             if (!velocidadMaximaField.isDisabled()) {
                 try {
                     velocidadMaxima = Integer.parseInt(velocidadMaximaField.getText());
