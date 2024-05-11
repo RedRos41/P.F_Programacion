@@ -5,6 +5,7 @@ interface Vehiculo {
     String obtenerPlaca();
     String obtenerModelo();
     String obtenerPropietario();
+    String obtenerTipoVehiculo();
 }
 
 // Clase base para vehículos
@@ -12,11 +13,13 @@ abstract class VehiculoBase implements Vehiculo {
     private final String placa;
     private final String modelo;
     private final String propietario;
+    private final String tipoVehiculo;
 
-    public VehiculoBase(String placa, String modelo, String propietario) {
+    public VehiculoBase(String placa, String modelo, String propietario, String tipoVehiculo) {
         this.placa = placa;
         this.modelo = modelo;
         this.propietario = propietario;
+        this.tipoVehiculo = tipoVehiculo;
     }
 
     @Override
@@ -33,25 +36,28 @@ abstract class VehiculoBase implements Vehiculo {
     public String obtenerPropietario() {
         return propietario;
     }
+
+    @Override
+    public String obtenerTipoVehiculo() {
+        return tipoVehiculo;
+    }
 }
 
 // Clase para representar una moto clásica
 class MotoClasica extends VehiculoBase {
-    public MotoClasica(String placa, String modelo, String propietario) {
-        super(placa, modelo, propietario);
+    public MotoClasica(String placa, String modelo, String propietario, String tipoVehiculo) {
+        super(placa, modelo, propietario, tipoVehiculo);
     }
 }
 
-// Clase para representar una moto híbrida
 class MotoHibrida extends VehiculoBase {
-    public MotoHibrida(String placa, String modelo, String propietario) {
-        super(placa, modelo, propietario);
+    public MotoHibrida(String placa, String modelo, String propietario, String tipoVehiculo) {
+        super(placa, modelo, propietario, tipoVehiculo);
     }
 }
 
-// Clase para representar un carro
 class Carro extends VehiculoBase {
-    public Carro(String placa, String modelo, String propietario) {
-        super(placa, modelo, propietario);
+    public Carro(String placa, String modelo, String propietario, String tipoVehiculo) {
+        super(placa, modelo, propietario, tipoVehiculo);
     }
 }
