@@ -13,9 +13,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class Parqueadero extends Application {
 
+    private final Vehiculo[][] parqueadero = new Vehiculo[2][2];
+
     @Override
     public void start(Stage primaryStage) {
-        Vehiculo[][] parqueadero = new Vehiculo[2][2];
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
@@ -50,17 +51,41 @@ public class Parqueadero extends Application {
                 default -> null;
             };
 
-            for (int i = 0; i < parqueadero.length; i++) {
-                for (int j = 0; j < parqueadero[i].length; j++) {
-                    if (parqueadero[i][j] == null) {
-                        parqueadero[i][j] = vehiculo;
-                        // Actualizamos la interfaz gráfica
-                        actualizarInterfaz(parqueadero, gridPane);
-                        return;
+            if (verificarPuestoDisponible()) {
+                for (int i = 0; i < parqueadero.length; i++) {
+                    for (int j = 0; j < parqueadero[i].length; j++) {
+                        if (parqueadero[i][j] == null) {
+                            parqueadero[i][j] = vehiculo;
+                            // Actualizamos la interfaz gráfica
+                            actualizarInterfaz(parqueadero, gridPane);
+                            return;
+                        }
                     }
                 }
+            } else {
+                System.out.println("El parqueadero está lleno.");
             }
-            System.out.println("El parqueadero está lleno.");
+        });
+
+        Button checkButton = new Button("Verificar Puesto");
+        checkButton.setOnAction(event -> {
+            String placaText = placaField.getText();
+            String modeloText = modeloField.getText();
+            if (!placaText.isEmpty() && !modeloText.isEmpty()) {
+                try {
+                    int fila = Integer.parseInt(placaText);
+                    int columna = Integer.parseInt(modeloText);
+                    if (verificarPuestoOcupado(fila, columna)) {
+                        System.out.println("El puesto está ocupado.");
+                    } else {
+                        System.out.println("El puesto está disponible.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Por favor, ingrese números válidos para la fila y la columna.");
+                }
+            } else {
+                System.out.println("Por favor, complete ambos campos.");
+            }
         });
 
         gridPane.add(new Label("Tipo de Vehículo:"), 0, 0);
@@ -72,8 +97,9 @@ public class Parqueadero extends Application {
         gridPane.add(new Label("Propietario:"), 0, 3);
         gridPane.add(propietarioField, 1, 3);
         gridPane.add(addButton, 0, 4, 2, 1);
+        gridPane.add(checkButton, 0, 5, 2, 1);
 
-        Scene scene = new Scene(gridPane, 400, 200);
+        Scene scene = new Scene(gridPane, 400, 250);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Parqueadero");
         primaryStage.show();
@@ -102,6 +128,21 @@ public class Parqueadero extends Application {
             label.setText("Parqueadero Vacío");
         }
         return label;
+    }
+
+    private boolean verificarPuestoOcupado(int fila, int columna) {
+        return parqueadero[fila][columna] != null;
+    }
+
+    private boolean verificarPuestoDisponible() {
+        for (Vehiculo[] vehiculos : parqueadero) {
+            for (Vehiculo vehiculo : vehiculos) {
+                if (vehiculo == null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
