@@ -2,7 +2,7 @@ package Proyecto;
 
 interface Vehiculo {
     String obtenerPlaca();
-    String obtenerModelo();
+    int obtenerModelo();
     String obtenerPropietario();
     String obtenerTipoVehiculo();
     int obtenerVelocidadMaxima();
@@ -10,11 +10,11 @@ interface Vehiculo {
 
 abstract class VehiculoBase implements Vehiculo {
     private final String placa;
-    private final String modelo;
+    private final int modelo;
     private final String propietario;
     private final String tipoVehiculo;
 
-    public VehiculoBase(String placa, String modelo, String propietario, String tipoVehiculo) {
+    public VehiculoBase(String placa, int modelo, String propietario, String tipoVehiculo) {
         this.placa = placa;
         this.modelo = modelo;
         this.propietario = propietario;
@@ -27,7 +27,7 @@ abstract class VehiculoBase implements Vehiculo {
     }
 
     @Override
-    public String obtenerModelo() {
+    public int obtenerModelo() {
         return modelo;
     }
 
@@ -45,7 +45,7 @@ abstract class VehiculoBase implements Vehiculo {
 class MotoClasica extends VehiculoBase {
     private final int velocidadMaxima;
 
-    public MotoClasica(String placa, String modelo, String propietario, String tipoVehiculo, int velocidadMaxima) {
+    public MotoClasica(String placa, int modelo, String propietario, String tipoVehiculo, int velocidadMaxima) {
         super(placa, modelo, propietario, tipoVehiculo);
         this.velocidadMaxima = velocidadMaxima;
     }
@@ -59,7 +59,7 @@ class MotoClasica extends VehiculoBase {
 class MotoHibrida extends VehiculoBase {
     private final int velocidadMaxima;
 
-    public MotoHibrida(String placa, String modelo, String propietario, String tipoVehiculo, int velocidadMaxima) {
+    public MotoHibrida(String placa, int modelo, String propietario, String tipoVehiculo, int velocidadMaxima) {
         super(placa, modelo, propietario, tipoVehiculo);
         this.velocidadMaxima = velocidadMaxima;
     }
@@ -71,7 +71,7 @@ class MotoHibrida extends VehiculoBase {
 }
 
 class Carro extends VehiculoBase {
-    public Carro(String placa, String modelo, String propietario, String tipoVehiculo) {
+    public Carro(String placa, int modelo, String propietario, String tipoVehiculo) {
         super(placa, modelo, propietario, tipoVehiculo);
     }
 
