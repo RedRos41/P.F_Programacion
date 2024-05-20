@@ -13,16 +13,20 @@ public class Parqueadero {
     }
 
     public int[] agregarVehiculo(Vehiculo vehiculo) {
-        for (int i = 0; i < parqueadero.length; i++) {
-            for (int j = 0; j < parqueadero[i].length; j++) {
-                if (parqueadero[i][j] == null) {
-                    parqueadero[i][j] = vehiculo;
-                    return new int[]{i, j};
-                }
-            }
-        }
+    if (vehiculo == null) {
         return null;
     }
+    for (int i = 0; i < parqueadero.length; i++) {
+        for (int j = 0; j < parqueadero[i].length; j++) {
+            if (parqueadero[i][j] == null) {
+                parqueadero[i][j] = vehiculo;
+                return new int[]{i, j};
+            }
+        }
+    }
+    return null;
+}
+
 
     public boolean verificarPuestoDisponible() {
         for (Vehiculo[] fila : parqueadero) {
@@ -36,10 +40,10 @@ public class Parqueadero {
     }
 
     public boolean verificarPuestoOcupado(int fila, int columna) {
-        if (fila < parqueadero.length && columna < parqueadero[fila].length) {
-            return parqueadero[fila][columna] != null;
+        if (fila < 0 || fila >= parqueadero.length || columna < 0 || columna >= parqueadero[fila].length) {
+            throw new ArrayIndexOutOfBoundsException("Índices fuera de los límites del parqueadero");
         }
-        return false;
+        return parqueadero[fila][columna] != null;
     }
 
     public boolean eliminarVehiculo(int fila, int columna) {

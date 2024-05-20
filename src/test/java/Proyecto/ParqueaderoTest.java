@@ -17,20 +17,39 @@ public class ParqueaderoTest {
     }
 
     @Test
+    public void testAgregarVehiculoNull() {
+        Parqueadero parqueadero = new Parqueadero();
+        int[] posicion = parqueadero.agregarVehiculo(null);
+
+        assertNull(posicion);
+    }
+
+    @Test
     public void testVerificarPuestoDisponible() {
         Parqueadero parqueadero = new Parqueadero();
+        assertTrue(parqueadero.verificarPuestoDisponible());
+
+        Vehiculo carro = parqueadero.crearVehiculo("Carro", "ABC123", 2022, "Propietario", 180);
+        parqueadero.agregarVehiculo(carro);
+
         assertTrue(parqueadero.verificarPuestoDisponible());
     }
 
     @Test
     public void testVerificarPuestoOcupado() {
         Parqueadero parqueadero = new Parqueadero();
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> parqueadero.verificarPuestoOcupado(10, 10));
+        assertFalse(parqueadero.verificarPuestoOcupado(0, 0));
 
         Vehiculo carro = parqueadero.crearVehiculo("Carro", "ABC123", 2022, "Propietario", 180);
         parqueadero.agregarVehiculo(carro);
 
         assertTrue(parqueadero.verificarPuestoOcupado(0, 0));
+    }
+
+    @Test
+    public void testVerificarPuestoOcupadoFueraDeLimites() {
+        Parqueadero parqueadero = new Parqueadero();
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> parqueadero.verificarPuestoOcupado(10, 10));
     }
 
     @Test
@@ -44,19 +63,7 @@ public class ParqueaderoTest {
     }
 
     @Test
-    public void testAgregarVehiculoNull() {
-        Parqueadero parqueadero = new Parqueadero();
-        assertThrows(IllegalArgumentException.class, () -> parqueadero.agregarVehiculo(null));
-    }
-
-    @Test
-    public void testVerificarPuestoOcupadoNull() {
-        Parqueadero parqueadero = new Parqueadero();
-        assertFalse(parqueadero.verificarPuestoOcupado(10, 10));
-    }
-
-    @Test
-    public void testEliminarVehiculoNull() {
+    public void testEliminarVehiculoFueraDeLimites() {
         Parqueadero parqueadero = new Parqueadero();
         assertFalse(parqueadero.eliminarVehiculo(10, 10));
     }
