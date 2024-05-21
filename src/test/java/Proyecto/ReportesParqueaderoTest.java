@@ -8,7 +8,6 @@ public class ReportesParqueaderoTest {
 
     @Test
     public void testAgregarRegistro() {
-        // Crear un vehículo simulado
         Vehiculo vehiculoSimulado = new Vehiculo() {
             @Override
             public String obtenerPlaca() {
@@ -44,7 +43,7 @@ public class ReportesParqueaderoTest {
 
         // Obtener los registros y verificar que se agregó correctamente
         assertEquals(1, reportesParqueadero.obtenerRegistros().size());
-        ReportesParqueadero.Registro registro = reportesParqueadero.obtenerRegistros().get(0);
+        ReportesParqueadero.Registro registro = reportesParqueadero.obtenerRegistros().getFirst();
         assertEquals(0, registro.getFila());
         assertEquals(0, registro.getColumna());
         assertEquals("ABC123", registro.getVehiculo().obtenerPlaca());
