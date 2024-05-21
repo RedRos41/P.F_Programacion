@@ -204,7 +204,6 @@ public class Main extends Application {
 
             if (parqueadero.eliminarVehiculo(filaEliminar, columnaEliminar)) {
                 mostrarAlerta("Vehículo eliminado", "El vehículo en la fila " + filaEliminar + " y columna " + columnaEliminar + " ha sido eliminado.");
-                // Actualizar la ventana de estado del parqueadero
                 mostrarVentanaParqueadero();
             } else {
                 mostrarAlerta("Puesto vacío", "El puesto en la fila " + filaEliminar + " y columna " + columnaEliminar + " ya está vacío.");
@@ -316,7 +315,6 @@ public class Main extends Application {
             String reporte = ReportesTarifa.mostrarReporteDiario(hoy);
         });
 
-        // Acción del botón reporte mensual
         reporteMensualButton.setOnAction(e -> {
             LocalDate hoy = LocalDate.now();
             String mesActual = hoy.getYear() + "-" + hoy.getMonthValue();
@@ -404,9 +402,15 @@ public class Main extends Application {
 
         List<ReportesParqueadero.Registro> registros = reportes.obtenerRegistros();
         for (ReportesParqueadero.Registro registro : registros) {
-            Label label = new Label("Fila: " + registro.getFila() + ", Columna: " + registro.getColumna() + ", Vehículo: " +
+            StringBuilder registroText = new StringBuilder("Fila: " + registro.getFila() + ", Columna: " + registro.getColumna() + ", Vehículo: " +
                     registro.getVehiculo().obtenerTipoVehiculo() + " - " + registro.getVehiculo().obtenerPlaca() + " - " +
                     registro.getVehiculo().obtenerModelo() + " - " + registro.getVehiculo().obtenerPropietario());
+            if (registro.getVehiculo() instanceof MotoClasica) {
+                registroText.append(" - Velocidad Máxima: ").append(((MotoClasica) registro.getVehiculo()).obtenerVelocidadMaxima());
+            } else if (registro.getVehiculo() instanceof MotoHibrida) {
+                registroText.append(" - Velocidad Máxima: ").append(((MotoHibrida) registro.getVehiculo()).obtenerVelocidadMaxima());
+            }
+            Label label = new Label(registroText.toString());
             vbox.getChildren().add(label);
         }
         Scene sceneRegistros = new Scene(vbox, 400, 400);

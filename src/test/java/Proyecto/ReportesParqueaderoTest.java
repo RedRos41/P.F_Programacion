@@ -35,13 +35,10 @@ public class ReportesParqueaderoTest {
             }
         };
 
-        // Crear una instancia de ReportesParqueadero
         ReportesParqueadero reportesParqueadero = new ReportesParqueadero();
 
-        // Agregar un registro
         reportesParqueadero.agregarRegistro(0, 0, vehiculoSimulado);
 
-        // Obtener los registros y verificar que se agregó correctamente
         assertEquals(1, reportesParqueadero.obtenerRegistros().size());
         ReportesParqueadero.Registro registro = reportesParqueadero.obtenerRegistros().getFirst();
         assertEquals(0, registro.getFila());
