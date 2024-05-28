@@ -9,31 +9,6 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 
 public class ReportesTarifa {
-    public static void mostrarReporteRecaudado() {
-        Stage reportStage = new Stage();
-        reportStage.setTitle("Reporte de Recaudación");
-
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10, 10, 10, 10));
-        grid.setVgap(8);
-        grid.setHgap(10);
-
-        Label motoClasicaLabel = new Label("Moto Clásica: $" + Administrador.getIngresoMotoClasica());
-        GridPane.setConstraints(motoClasicaLabel, 0, 0);
-
-        Label motoHibridaLabel = new Label("Moto Híbrida: $" + Administrador.getIngresoMotoHibrida());
-        GridPane.setConstraints(motoHibridaLabel, 0, 1);
-
-        Label carroLabel = new Label("Carro: $" + Administrador.getIngresoCarro());
-        GridPane.setConstraints(carroLabel, 0, 2);
-
-        grid.getChildren().addAll(motoClasicaLabel, motoHibridaLabel, carroLabel);
-
-        Scene scene = new Scene(grid, 300, 200);
-        reportStage.setScene(scene);
-        reportStage.show();
-    }
-
     public static String mostrarReporteDiario(LocalDate fecha) {
         Stage reportStage = new Stage();
         reportStage.setTitle("Reporte Diario de Recaudación");

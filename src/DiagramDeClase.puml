@@ -1,0 +1,122 @@
+@startuml
+
+interface Vehiculo {
+String obtenerPlaca()
+int obtenerModelo()
+String obtenerPropietario()
+String obtenerTipoVehiculo()
+int obtenerVelocidadMaxima()
+}
+
+
+abstract class VehiculoBase implements Vehiculo {
+- final String placa
+- final int modelo
+- final String propietario
+- final String tipoVehiculo
++ VehiculoBase(String placa, int modelo, String propietario, String tipoVehiculo)
++ String obtenerPlaca()
++ int obtenerModelo()
++ String obtenerPropietario()
++ String obtenerTipoVehiculo()
+}
+
+
+class MotoClasica extends VehiculoBase {
+- final int velocidadMaxima
++ MotoClasica(String placa, int modelo, String propietario, String tipoVehiculo, int velocidadMaxima)
++ int obtenerVelocidadMaxima()
+}
+
+
+class MotoHibrida extends VehiculoBase {
+- final int velocidadMaxima
++ MotoHibrida(String placa, int modelo, String propietario, String tipoVehiculo, int velocidadMaxima)
++ int obtenerVelocidadMaxima()
+}
+
+
+class Carro extends VehiculoBase {
++ Carro(String placa, int modelo, String propietario, String tipoVehiculo)
++ int obtenerVelocidadMaxima()
+}
+
+
+class Parqueadero {
+- final Vehiculo[][] parqueadero = new Vehiculo[3][3]
++ Vehiculo crearVehiculo(String tipoVehiculo, String placa, int modelo, String propietario, int velocidadMaxima)
++ int[] agregarVehiculo(Vehiculo vehiculo)
++ boolean verificarPuestoDisponible()
++ boolean verificarPuestoOcupado(int fila, int columna)
++ boolean eliminarVehiculo(int fila, int columna)
++ Vehiculo[][] obtenerParqueadero()
+}
+
+
+class Administrador {
++ static int TARIFA_MOTO_CLASICA
++ static int TARIFA_MOTO_HIBRIDA
++ static int TARIFA_CARRO
+- static int ingresoMotoClasica = 0
+- static int ingresoMotoHibrida = 0
+- static int ingresoCarro = 0
+- static Map<LocalDate, int[]> ingresosDiarios = new HashMap<>()
+- static Map<String, int[]> ingresosMensuales = new HashMap<>()
++ static void setTarifas(int motoClasica, int motoHibrida, int carro)
++ static void IngresoMotoClasica(int ingreso)
++ static void IngresoMotoHibrida(int ingreso)
++ static void IngresoCarro(int ingreso)
++ static int getIngresoMotoClasica()
++ static int getIngresoMotoHibrida()
++ static int getIngresoCarro()
+- static void registrarIngresoDiario(int tipoVehiculo, int ingreso)
++ static int[] getIngresosDiarios(LocalDate fecha)
++ static int[] getIngresosMensuales(String mes)
+}
+
+
+class ReportesParqueadero {
+- final List<Registro> registros = new ArrayList<>()
++ void agregarRegistro(int fila, int columna, Vehiculo vehiculo)
++ List<Registro> obtenerRegistros()
++ static class Registro
+- final int fila
+- final int columna
+- final Vehiculo vehiculo
++ Registro(int fila, int columna, Vehiculo vehiculo)
++ int getFila()
++ int getColumna()
++ Vehiculo getVehiculo()
+}
+
+
+class ReportesTarifa {
++ static String mostrarReporteDiario(LocalDate fecha)
++ static String mostrarReporteMensual(String mes)
+}
+
+class Application {
+import javafx.application.Application
+}
+
+
+class Main extends Application {
+- final Parqueadero parqueadero = new Parqueadero();
+- final ReportesParqueadero reportes = new ReportesParqueadero();
+- final int filas = 3;
+- final int columnas = 3;
+- final TextField velocidadMaximaField = new TextField();
+- Stage ventanaParqueadero;
+- GridPane gridPaneParqueadero;
+- Label resultadoLabel;
++ static void main(String[] args)
++ void start(Stage primaryStage)
+- void mostrarAlerta(String titulo, String mensaje)
+- void mostrarVentanaParqueadero()
+- void actualizarEstadoParqueadero()
+- static Label getLabel(int j, Vehiculo[] parqueadero)
+- void mostrarRegistros()
+- void showError(String message)
+}
+
+@enduml
